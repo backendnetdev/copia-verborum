@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+
+<html lang="ru" data-lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Copia Verborum – изучение иностранных слов</title>
+<meta name="description" content="Copia Verborum – Android-приложение для изучения иностранных слов: словарь, карточки и тренировки с интервальными повторениями по кривой забывания Эббингауза.">
+<meta name="theme-color" content="#018786">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23018786'/><text x='32' y='43' font-family='Arial' font-size='26' font-weight='bold' fill='white' text-anchor='middle'>CV</text></svg>">
+<style>
+:root{--teal:#018786;--teal-dark:#016463;--teal-soft:#e8f4f3;--ink:#0f1f1e;--muted:#5b6f6d;--soft:#f6faf9;--line:#dbe8e6;--radius:16px;--max:1080px}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
+a{color:var(--teal)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+html[data-lang="ru"] .i18n [lang="en"],html[data-lang="en"] .i18n [lang="ru"]{display:none}
+.site-header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.header-inner{display:flex;align-items:center;gap:16px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:700}
+.brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--teal);color:#fff;font-size:13px;letter-spacing:.5px}
+.nav{display:flex;gap:22px;margin-left:auto}
+.nav a{color:var(--muted);text-decoration:none;font-size:15px}
+.nav a:hover{color:var(--teal)}
+.lang-switch{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-left:8px}
+.lang-switch button{border:0;background:#fff;color:var(--muted);font:inherit;font-size:13px;padding:6px 12px;cursor:pointer}
+.lang-switch button[aria-pressed="true"]{background:var(--teal);color:#fff}
+.hero{background:linear-gradient(180deg,var(--teal-soft),#fff);padding:64px 0 56px;border-bottom:1px solid var(--line)}
+.hero-inner{max-width:820px}
+.badge{display:inline-block;font-size:13px;font-weight:600;color:var(--teal-dark);background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+h1{font-size:clamp(30px,5vw,48px);line-height:1.15;letter-spacing:-.02em;margin:20px 0 16px}
+.lead{font-size:clamp(16px,2.2vw,19px);color:var(--muted);margin:0 0 24px;max-width:680px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0 0 28px}
+.chips li{font-size:13px;color:var(--teal-dark);background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;padding:12px 22px;border-radius:12px;text-decoration:none;font-weight:600;font-size:15px;border:1px solid transparent}
+.btn-primary{background:var(--teal);color:#fff}
+.btn-primary:hover{background:var(--teal-dark)}
+.btn-ghost{border-color:var(--line);color:var(--ink);background:#fff}
+.btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+section{padding:64px 0}
+section.alt{background:var(--soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+h2{font-size:clamp(22px,3.4vw,32px);line-height:1.25;letter-spacing:-.01em;margin:0 0 12px}
+.section-lead{color:var(--muted);max-width:720px;margin:0 0 32px}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.card h3{margin:0 0 8px;font-size:17px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.step-num{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--teal-soft);color:var(--teal-dark);font-weight:700;font-size:14px;margin-bottom:12px}
+.timeline{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.timeline li{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.timeline .n{flex:0 0 28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700}
+.timeline .when{font-weight:600}
+.note{margin-top:22px;background:var(--teal-soft);border-left:4px solid var(--teal);border-radius:10px;padding:16px 18px;color:var(--teal-dark);font-size:15px}
+.faq{display:grid;gap:12px;max-width:820px}
+details{background:#fff;border:1px solid var(--line);border-radius:12px}
+summary{cursor:pointer;padding:16px 18px;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--teal);font-weight:700}
+details[open] summary::after{content:"–"}
+.answer{padding:0 18px 16px;color:var(--muted);font-size:15px}
+.cta{background:var(--teal);color:#fff;border-radius:20px;padding:40px;text-align:center}
+.cta h2{color:#fff;margin-bottom:10px}
+.cta p{color:rgba(255,255,255,.88);max-width:620px;margin:0 auto 24px}
+.cta .btn-primary{background:#fff;color:var(--teal-dark)}
+footer{padding:36px 0;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+.footer-inner{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.footer-links{display:flex;flex-wrap:wrap;gap:18px}
+.footer-links a{color:var(--muted);text-decoration:none}
+.footer-links a:hover{color:var(--teal)}
+@media(max-width:860px){.nav{display:none}}
+@media(max-width:560px){section{padding:48px 0}.cta{padding:28px 20px}}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark">CV</span>
+      <span class="brand-name">Copia Verborum</span>
+    </a>
+    <nav class="nav i18n" aria-label="Основная навигация">
+      <a href="#how"><span lang="ru">Как это работает</span><span lang="en">How it works</span></a>
+      <a href="#schedule"><span lang="ru">Расписание</span><span lang="en">Schedule</span></a>
+      <a href="#dictionaries"><span lang="ru">Словари</span><span lang="en">Dictionaries</span></a>
+      <a href="#faq"><span lang="ru">Вопросы</span><span lang="en">FAQ</span></a>
+    </nav>
+    <div class="lang-switch" role="group" aria-label="Язык / Language">
+      <button type="button" data-set-lang="ru" aria-pressed="true">RU</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <span class="badge i18n">
+        <span lang="ru">В активной разработке · скоро в Google Play</span>
+        <span lang="en">In active development · coming to Google Play</span>
+      </span>
+      <h1 class="i18n">
+        <span lang="ru">Словарный запас, который остаётся с вами</span>
+        <span lang="en">Vocabulary that stays with you</span>
+      </h1>
+      <p class="lead i18n">
+        <span lang="ru">Copia Verborum – Android-приложение для изучения иностранных слов. Словарь, карточки слов и тренировки с интервальными повторениями по кривой забывания Эббингауза.</span>
+        <span lang="en">Copia Verborum is an Android app for learning foreign words. A dictionary, word cards and spaced-repetition drills built around the Ebbinghaus forgetting curve.</span>
+      </p>
+      <ul class="chips">
+        <li class="i18n"><span lang="ru">3 словаря</span><span lang="en">3 dictionaries</span></li>
+        <li class="i18n"><span lang="ru">6 стадий повторения</span><span lang="en">6 review stages</span></li>
+        <li class="i18n"><span lang="ru">3 типа тренировок</span><span lang="en">3 drill types</span></li>
+      </ul>
+      <div class="hero-actions">
+        <a class="btn btn-primary i18n" href="#how">
+          <span lang="ru">Как это работает</span><span lang="en">How it works</span>
+        </a>
+        <a class="btn btn-ghost i18n" href="#dictionaries">
+          <span lang="ru">Посмотреть словари</span><span lang="en">See the dictionaries</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2 class="i18n"><span lang="ru">Выучил – и забыл</span><span lang="en">Learned it – and forgot it</span></h2>
+      <p class="section-lead i18n">
+        <span lang="ru">Новые слова забываются по кривой Эббингауза: без повторения большая часть уходит из памяти уже в первые сутки. Зубрёжка перед экзаменом даёт краткий эффект, а после долгого перерыва в языке слова «выветриваются».</span>
+        <span lang="en">New words fade along the Ebbinghaus curve: without review, most of them are gone within the first day. Cramming works for an exam and fails for a language you haven't used in a while.</span>
+      </p>
+      <div class="grid">
+        <div class="card">
+          <h3 class="i18n"><span lang="ru">Слова теряются без системы</span><span lang="en">Words slip away without a system</span></h3>
+          <p class="i18n"><span lang="ru">Учить «когда вспомнил» – значит повторять одно и то же и забывать остальное.</span><span lang="en">Studying "when you remember to" means repeating the same words and losing the rest.</span></p>
+        </div>
+        <div class="card">
+          <h3 class="i18n"><span lang="ru">Готовые курсы не гибкие</span><span lang="en">Ready-made courses are rigid</span></h3>
+          <p class="i18n"><span lang="ru">В них нет ваших слов: из книги, статьи, разговора или профессиональной лексики.</span><span lang="en">They don't hold your words: from a book, an article, a conversation or your professional field.</span></p>
+        </div>
+        <div class="card">
+          <h3 class="i18n"><span lang="ru">Непонятно, что повторять</span><span lang="en">No clear "what to review next"</span></h3>
+          <p class="i18n"><span lang="ru">Без расписания непонятно, какое слово уже «на грани» и когда к нему возвращаться.</span><span lang="en">Without a schedule you can't tell which word is about to slip and when to come back to it.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt" id="how">
+    <div class="wrap">
+      <h2 class="i18n"><span lang="ru">Как это работает</span><span lang="en">How it works</span></h2>
+      <p class="section-lead i18n"><span lang="ru">Четыре шага от регистрации до первой тренировки.</span><span lang="en">Four steps from sign-up to your first drill.</span></p>
+      <div class="grid">
+        <div class="card">
+          <span class="step-num">1</span>
+          <h3 class="i18n"><span lang="ru">Регистрация по email</span><span lang="en">Sign up with email</span></h3>
+          <p class="i18n"><span lang="ru">Выбираете язык, активный период в сутках и лимит количества слов в тренировке. Позже можно добавить ещё языки.</span><span lang="en">Choose a language, your active hours and how many words a drill contains. More languages can be added later.</span></p>
+        </div>
+        <div class="card">
+          <span class="step-num">2</span>
+          <h3 class="i18n"><span lang="ru">Поиск слова</span><span lang="en">Find a word</span></h3>
+          <p class="i18n"><span lang="ru">Находите иностранное слово, смотрите варианты перевода и открываете карточку: транскрипция, пометы, примеры, озвучка – если они есть.</span><span lang="en">Search for a foreign word, browse the translations and open the word card: transcription, usage labels, examples and audio where available.</span></p>
+        </div>
+        <div class="card">
+          <span class="step-num">3</span>
+          <h3 class="i18n"><span lang="ru">Добавление в словарь</span><span lang="en">Save it</span></h3>
+          <p class="i18n"><span lang="ru">Сохраняете слово в личный словарь или в коллекцию – по теме, источнику или своему принципу.</span><span lang="en">Save the word to your personal dictionary or to a collection – by topic, source or any rule you like.</span></p>
+        </div>
+        <div class="card">
+          <span class="step-num">4</span>
+          <h3 class="i18n"><span lang="ru">Тренировка</span><span lang="en">Practise</span></h3>
+          <p class="i18n"><span lang="ru">Проходите тренировку и видите результат: сколько было ошибок и когда состоится следующее повторение.</span><span lang="en">Complete a drill and see the result: how many mistakes you made and when the next review is due.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="schedule">
+    <div class="wrap">
+      <h2 class="i18n"><span lang="ru">Шесть стадий повторения</span><span lang="en">Six review stages</span></h2>
+      <p class="section-lead i18n">
+        <span lang="ru">Слово переходит на следующую стадию только после успешного повторения в назначенное время. Чем дальше стадия, тем реже нужно возвращаться к слову.</span>
+        <span lang="en">A word moves to the next stage only after a successful review at the scheduled time. The further the stage, the less often you need to come back to it.</span>
+      </p>
+      <ol class="timeline">
+        <li><span class="n">1</span><span class="when i18n"><span lang="ru">через 10 – 20 минут</span><span lang="en">after 10 – 20 minutes</span></span></li>
+        <li><span class="n">2</span><span class="when i18n"><span lang="ru">через 8 – 12 часов</span><span lang="en">after 8 – 12 hours</span></span></li>
+        <li><span class="n">3</span><span class="when i18n"><span lang="ru">через 24 – 32 часа</span><span lang="en">after 24 – 32 hours</span></span></li>
+        <li><span class="n">4</span><span class="when i18n"><span lang="ru">через 3 – 5 дней</span><span lang="en">after 3 – 5 days</span></span></li>
+        <li><span class="n">5</span><span class="when i18n"><span lang="ru">через 1 – 1,5 месяца</span><span lang="en">after 1 – 1.5 months</span></span></li>
+        <li><span class="n">6</span><span class="when i18n"><span lang="ru">через 4 – 5 месяцев</span><span lang="en">after 4 – 5 months</span></span></li>
+      </ol>
+      <p class="note i18n">
+        <span lang="ru">Если пропустить плановую тренировку, слово не перейдёт на новую стадию – оно останется на текущей и будет повторено через свой интервал. Внеплановая тренировка доступна в любой момент, но на расписание не влияет.</span>
+        <span lang="en">If you miss a scheduled drill, the word doesn't advance: it stays on its current stage and repeats after the current interval. Extra practice is always available but doesn't change the schedule.</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <h2 class="i18n"><span lang="ru">Три типа тренировок</span><span lang="en">Three drill types</span></h2>
+      <p class="section-lead i18n"><span lang="ru">Разные типы заданий задействуют узнавание, письмо и восприятие на слух.</span><span lang="en">Different task types engage recognition, spelling and listening.</span></p>
+      <div class="grid">
+        <div class="card">
+          <h3 class="i18n"><span lang="ru">Выбор перевода</span><span lang="en">Choose the translation</span></h3>
+          <p class="i18n"><span lang="ru">Выберите правильный перевод из предложенных вариантов.</span><span lang="en">Pick the correct translation from the options offered.</span></p>
+        </div>
+        <div class="card">
+          <h3 class="i18n"><span lang="ru">Собрать слово из букв</span><span lang="en">Build the word</span></h3>
+          <p class="i18n"><span lang="ru">Составьте слово из перемешанных букв – тренировка написания.</span><span lang="en">Assemble the word from shuffled letters – a spelling workout.</span></p>
+        </div>
+        <div class="card">
+          <h3 class="i18n"><span lang="ru">Написать по озвучке</span><span lang="en">Type from audio</span></h3>
+          <p class="i18n"><span lang="ru">Запишите слово, которое слышите, – там, где для слова есть озвучка.</span><span lang="en">Write down the word you hear, wherever audio is available for it.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="dictionaries">
+    <div class="wrap">
+      <h2 class="i18n"><span lang="ru">Словари</span><span lang="en">Dictionaries</span></h2>
+      <p class="section-lead i18n">
+        <span lang="ru">На старте доступны три направления. В одном аккаунте можно держать несколько языков и переключаться между ними.</span>
+        <span lang="en">Three language pairs at launch. You can keep several languages in one account and switch between them.</span>
+      </p>
+      <div class="grid">
+        <div class="card"><h3>English – Русский</h3><p class="i18n"><span lang="ru">Англо-русский словарь</span><span lang="en">English–Russian dictionary</span></p></div>
+        <div class="card"><h3>Español – Русский</h3><p class="i18n"><span lang="ru">Испанско-русский словарь</span><span lang="en">Spanish–Russian dictionary</span></p></div>
+        <div class="card"><h3>Suomi – Русский</h3><p class="i18n"><span lang="ru">Финско-русский словарь</span><span lang="en">Finnish–Russian dictionary</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt">
+    <div class="wrap">
+      <h2 class="i18n"><span lang="ru">Подстраивается под ваш день</span><span lang="en">Built around your day</span></h2>
+      <p class="section-lead i18n"><span lang="ru">Два параметра, которые задаёте вы, а не приложение.</span><span lang="en">Two parameters set by you, not by the app.</span></p>
+      <div class="grid">
+        <div class="card">
+          <h3 class="i18n"><span lang="ru">Активный период в сутках</span><span lang="en">Active hours</span></h3>
+          <p class="i18n"><span lang="ru">Укажите, когда вы обычно занимаетесь: приложение подскажет время для новых слов и пришлёт уведомление, когда подойдёт срок повторения.</span><span lang="en">Set when you usually study: the app suggests when to start new words and notifies you when a review is due.</span></p>
+        </div>
+        <div class="card">
+          <h3 class="i18n"><span lang="ru">Лимит слов в тренировке</span><span lang="en">Words per drill</span></h3>
+          <p class="i18n"><span lang="ru">Выберите посильный объём – от короткой сессии до полноценного занятия.</span><span lang="en">Choose a manageable workload – from a short session to a full lesson.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap">
+      <h2 class="i18n"><span lang="ru">Вопросы и ответы</span><span lang="en">Frequently asked questions</span></h2>
+      <p class="section-lead i18n"><span lang="ru">Если не нашли ответ – напишите на backendnetdev@gmail.com.</span><span lang="en">Can't find an answer? Write to backendnetdev@gmail.com.</span></p>
+      <div class="faq">
+        <details>
+          <summary class="i18n"><span lang="ru">Приложение бесплатное?</span><span lang="en">Is the app free?</span></summary>
+          <div class="answer i18n"><span lang="ru">Приложение распространяется бесплатно. Для поддержки развития планируется показ рекламы.</span><span lang="en">The app is distributed free of charge. Ads are planned to support development.</span></div>
+        </details>
+        <details>
+          <summary class="i18n"><span lang="ru">Есть версия для iOS?</span><span lang="en">Is there an iOS version?</span></summary>
+          <div class="answer i18n"><span lang="ru">Пока нет. Приложение разработано для Android.</span><span lang="en">Not yet. The app is built for Android.</span></div>
+        </details>
+        <details>
+          <summary class="i18n"><span lang="ru">Можно учить несколько языков?</span><span lang="en">Can I study several languages?</span></summary>
+          <div class="answer i18n"><span lang="ru">Да. Добавьте нужные языки в аккаунт и переключайтесь между ними.</span><span lang="en">Yes. Add the languages you need to your account and switch between them.</span></div>
+        </details>
+        <details>
+          <summary class="i18n"><span lang="ru">Можно добавлять свои слова?</span><span lang="en">Can I add my own words?</span></summary>
+          <div class="answer i18n"><span lang="ru">Да. Любое слово, найденное в словаре, можно сохранить в личный словарь или коллекцию.</span><span lang="en">Yes. Any word you find in the dictionary can be saved to your personal dictionary or a collection.</span></div>
+        </details>
+        <details>
+          <summary class="i18n"><span lang="ru">Когда приложение появится в Google Play?</span><span lang="en">When will it be on Google Play?</span></summary>
+          <div class="answer i18n"><span lang="ru">Сейчас идёт закрытое тестирование, дата публикации пока не объявлена. Следите за проектом, чтобы узнать о релизе.</span><span lang="en">Closed testing is under way; the release date has not been announced yet. Follow the project to hear about the release.</span></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="cta">
+        <h2 class="i18n"><span lang="ru">Скоро в Google Play</span><span lang="en">Coming to Google Play</span></h2>
+        <p class="i18n"><span lang="ru">Приложение находится в закрытом тестировании. Следите за проектом, чтобы первыми узнать о релизе.</span><span lang="en">The app is in closed testing. Follow the project to be the first to know about the release.</span></p>
+        <div class="hero-actions" style="justify-content:center">
+          <a class="btn btn-primary i18n" href="https://github.com/backendnetdev/copia-verborum">
+            <span lang="ru">Следить на GitHub</span><span lang="en">Follow on GitHub</span>
+          </a>
+          <a class="btn btn-ghost i18n" href="mailto:backendnetdev@gmail.com">
+            <span lang="ru">Написать нам</span><span lang="en">Contact us</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>© 2026 Copia Verborum</span>
+    <div class="footer-links">
+      <a class="i18n" href="privacy.html"><span lang="ru">Политика конфиденциальности</span><span lang="en">Privacy Policy</span></a>
+      <a class="i18n" href="terms.html"><span lang="ru">Условия использования</span><span lang="en">Terms of Service</span></a>
+      <a href="mailto:backendnetdev@gmail.com">backendnetdev@gmail.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var buttons = document.querySelectorAll('[data-set-lang]');
+  var saved = null;
+  try { saved = localStorage.getItem('cv-lang'); } catch (e) {}
+  apply(saved || 'ru');
+
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () { apply(btn.getAttribute('data-set-lang')); });
+  });
+
+  function apply(lang) {
+    root.setAttribute('data-lang', lang);
+    root.setAttribute('lang', lang);
+    try { localStorage.setItem('cv-lang', lang); } catch (e) {}
+    buttons.forEach(function (btn) {
+      btn.setAttribute('aria-pressed', btn.getAttribute('data-set-lang') === lang ? 'true' : 'false');
+    });
+  }
+})();
+</script>
+</body>
+</html>
